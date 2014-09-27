@@ -9,16 +9,21 @@ using namespace std;
 int main() {
    char board[BOARD_SIZE][BOARD_SIZE] = {0};
    int row = 0, col = 0, passed = 0;
-
+   board[3][3] = -1;
+   board[3][4] = 1;
+   board[4][3] = 1;
+   board[4][4] = -1;
    PrintBoard(board);
+
    for(int i = 0; i < TOTAL_MOVES; i++) {
       if(passed == 2) 
          break;
       if (i % 2 == 1)
-         cout<<"Blacks's turn: ";
-      else
          cout<<"White's turn: ";
+      else
+         cout<<"Black's turn: ";
       GetMove(&row, &col);
+
       if (IsValidMove(board, row, col)) {
          if(row == -1 && col == -1) 
             passed++;
@@ -33,6 +38,15 @@ int main() {
          i--;
       }
    }
+
+   cout<<"The game is over!";
+   int endValue = GetValue(board);
+   if (endValue > 0)
+      cout<<" Black wins!!";
+   else if (endValue < 0)
+      cout<<" White wins!!!";
+   else
+      cout<<" We have a tie!";
 }
 
 //12 lines
@@ -73,7 +87,21 @@ bool IsValidMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col) {
 
 //TODO
 void ApplyMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, char currentPlayer) {
-
+   int lineChecker = 1;
+   board[row][col]=currentPlayer;
+   for(int i = -1; i < 2; i++) {
+      for(int k = -1; k < 2; k++) {
+         while(InBounds(row+i*lineChecker,col+k*lineChecker) && board[row+i*lineChecker][col+k*lineChecker] == (currentPlayer * -1)) {
+            lineChecker++;
+         }
+         if(InBounds(row+i*lineChecker,col+k*lineChecker) && board[row+i*lineChecker][col+k*lineChecker] == currentPlayer) {
+            
+            for(int j = lineChecker; j > 0; j--) {
+               board[row+i*j][col+k*j] = currentPlayer;
+            }
+         }
+      }
+   }
 }
 
 //5 lines
