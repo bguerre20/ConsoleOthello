@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
    char board[BOARD_SIZE][BOARD_SIZE] = {0};
-   char row = 0, col = 0;
+   int row = 0, col = 0;
    PrintBoard(board);
 }
 
@@ -29,8 +29,36 @@ void PrintBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
    cout<<endl;
 }
 
+//2 lines
 void GetMove(int *row, int *col) {
    char junk = '.';
-   cin>>junk>>*row>>junk>>*col>>junk;
-   cout<<endl;
+   cin>>junk>>*row>>junk>>*col>>junk>>junk;
+}
+
+//1 lines
+bool InBounds(int row, int col) {
+   return (row >= 0 && col >= 0 && row <= BOARD_SIZE && col <= BOARD_SIZE);
+}
+
+//3 lines
+bool IsValidMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col) {
+   if(InBounds(row,col))
+      return board[row][col] == 0;
+   return (row == -1 && col == -1);
+}
+
+//TODO
+void ApplyMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col, char currentPlayer) {
+
+}
+
+//5 lines
+int GetValue(char board[BOARD_SIZE][BOARD_SIZE]) {
+   int gameValue = 0;
+   for(int i = 0; i < BOARD_SIZE; i++) {
+      for(int k = 0; k < BOARD_SIZE; k++) {
+         gameValue += board[i][k];
+      }
+   }
+   return gameValue;
 }
