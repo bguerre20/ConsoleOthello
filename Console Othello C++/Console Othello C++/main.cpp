@@ -4,11 +4,35 @@
 #include "OthelloGame.h"
 
 using namespace std;
+#define TOTAL_MOVES 60
 
 int main() {
    char board[BOARD_SIZE][BOARD_SIZE] = {0};
-   int row = 0, col = 0;
+   int row = 0, col = 0, passed = 0;
+
    PrintBoard(board);
+   for(int i = 0; i < TOTAL_MOVES; i++) {
+      if(passed == 2) 
+         break;
+      if (i % 2 == 1)
+         cout<<"Blacks's turn: ";
+      else
+         cout<<"White's turn: ";
+      GetMove(&row, &col);
+      if (IsValidMove(board, row, col)) {
+         if(row == -1 && col == -1) 
+            passed++;
+         else {
+            ApplyMove(board,row,col,(char)pow(-1,i));
+            passed = 0;
+         }
+         PrintBoard(board);
+      }
+      else {
+         cout<<"Can't go there! Pick somewhere else please."<<endl;
+         i--;
+      }
+   }
 }
 
 //12 lines
