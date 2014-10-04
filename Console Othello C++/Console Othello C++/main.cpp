@@ -8,14 +8,14 @@ using namespace std;
 
 int main() {
    char board[BOARD_SIZE][BOARD_SIZE] = {0};
-   int row = 0, col = 0, passed = 0;
+   int row = 0, col = 0, passed = 0, passedTotal = 0;
    board[3][3] = -1;
    board[3][4] = 1;
    board[4][3] = 1;
    board[4][4] = -1;
    PrintBoard(board);
 
-   for(int i = 0; i < TOTAL_MOVES; i++) {
+   for(int i = 0; i < TOTAL_MOVES + passedTotal; i++) {
       if(passed == 2) 
          break;
       if (i % 2 == 1)
@@ -25,8 +25,11 @@ int main() {
       GetMove(&row, &col);
 
       if (IsValidMove(board, row, col)) {
-         if(row == -1 && col == -1) 
+         if(row == -1 && col == -1) {
             passed++;
+            passedTotal++;
+            //here is a new comment
+         }
          else {
             ApplyMove(board,row,col,(char)pow(-1,i));
             passed = 0;
